@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Valentine?</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        font-family: 'Poppins', sans-serif;
+        overflow: hidden;
+    }
+
+    .container {
+        text-align: center;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        max-width: 400px;
+    }
+
+    h1 {
+        color: #ff4d6d;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #555;
+        min-height: 24px;
+    }
+
+    .buttons {
+        margin-top: 30px;
+        position: relative;
+        height: 120px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: absolute;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #noBtn {
+        background: #ccc;
+        color: #333;
+        left: 50%;
+        top: 60px;
+        transform: translateX(-50%);
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Will you be my Valentine? 💖</h1>
+    <p id="text">Soch lo… dil se ❤️</p>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
+        <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+    </div>
+</div>
+
+<script>
+    let noCount = 0;
+    const messages = [
+        "Are you sure? 🤔",
+        "Ek baar aur soch lo 🥺",
+        "Dil se jawab do 💓",
+        "Itna jaldi No? 😢",
+        "Last chance 😭",
+        "Ab toh Yes hi bacha hai 😏"
+    ];
+
+    function moveNo() {
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const text = document.getElementById("text");
+
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 100);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+
+        if (noCount < messages.length) {
+            text.innerText = messages[noCount];
+        }
+
+        let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+        yesBtn.style.fontSize = (currentSize + 3) + "px";
+
+        noCount++;
+    }
+
+    function yesClicked() {
+        document.body.innerHTML = `
+            <div style="
+                height:100vh;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                flex-direction:column;
+                background:linear-gradient(135deg,#ff758c,#ff7eb3);
+                color:white;
+                text-align:center;
+                font-family:Poppins,sans-serif;">
+                <h1>Yaaay!!! 😍💖</h1>
+                <h2>You just made me the happiest person 🥰</h2>
+                <p>Happy Valentine’s Day 💘</p>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
