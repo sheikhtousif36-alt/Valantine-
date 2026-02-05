@@ -2,163 +2,195 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine Surprise 💖</title>
+<title>Valentine 💖</title>
 
 <style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    font-family:Poppins,sans-serif;
+    overflow:hidden;
 }
 
-.container {
-    background: white;
-    padding: 40px;
-    border-radius: 25px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    max-width: 420px;
+.container{
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    width:90%;
+    max-width:420px;
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
 }
 
-h1 {
-    color: #ff3f6c;
+h1{color:#ff3f6c;}
+
+#text{
+    min-height:28px;
+    color:#555;
+    margin-top:10px;
+    font-weight:500;
 }
 
-#message {
-    margin-top: 10px;
-    color: #555;
-    min-height: 24px;
-    font-weight: 500;
+.buttons{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
 }
 
-.buttons {
-    margin-top: 30px;
-    height: 160px;
-    position: relative;
+button{
+    border:none;
+    border-radius:40px;
+    padding:16px 32px;
+    font-size:18px;
+    cursor:pointer;
+    transition:all .4s ease;
 }
 
-button {
-    border: none;
-    border-radius: 30px;
-    padding: 14px 30px;
-    font-size: 18px;
-    cursor: pointer;
-    position: absolute;
-    transition: all 0.3s ease;
+#yesBtn{
+    background:#ff3f6c;
+    color:white;
+    width:120px;
 }
 
-#yesBtn {
-    background: #ff3f6c;
-    color: white;
-    left: 50%;
-    transform: translateX(-50%);
+#noBtn{
+    background:#ddd;
+    color:#333;
 }
 
-#noBtn {
-    background: #ddd;
-    color: #333;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
+/* SECOND PAGE */
+.second{
+    display:none;
+    position:fixed;
+    inset:0;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    color:white;
+    text-align:center;
+    animation:fadeIn .8s ease;
 }
 
-/* POPUP */
-.popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
+@keyframes fadeIn{
+    from{opacity:0;transform:scale(.95)}
+    to{opacity:1;transform:scale(1)}
 }
 
-.popup-box {
-    background: white;
-    padding: 40px;
-    border-radius: 25px;
-    text-align: center;
-    animation: pop 0.4s ease;
+.kiss{
+    font-size:90px;
+    animation:pulse 1s infinite alternate;
 }
 
-@keyframes pop {
-    from {transform: scale(0.6);}
-    to {transform: scale(1);}
+@keyframes pulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.25)}
 }
 
-.kiss {
-    font-size: 70px;
-    animation: kiss 1s infinite alternate;
+.glow{
+    text-shadow:0 0 10px #fff,0 0 20px #ffb3c6;
 }
 
-@keyframes kiss {
-    from {transform: scale(1);}
-    to {transform: scale(1.2);}
+/* HEARTS */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:24px;
+    animation:float 4s linear infinite;
+}
+
+@keyframes float{
+    to{
+        transform:translateY(-110vh);
+        opacity:0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container" id="page1">
     <h1>Will you be my Valentine? 💖</h1>
-    <p id="message">Soch samajh ke jawab dena 😌</p>
+    <p id="text">Soch samajh ke jawab dena 😌</p>
 
     <div class="buttons">
-        <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
-        <button id="noBtn" onclick="noClicked()">No 🙃</button>
+        <button id="yesBtn" onclick="yesClick()">Yes 💕</button>
+        <button id="noBtn" onclick="noClick()">No 🙃</button>
     </div>
 </div>
 
-<div class="popup" id="popup">
-    <div class="popup-box">
-        <div class="kiss">💋</div>
-        <h2>Hehe… I knew it 😏</h2>
-        <p>I love you so much ❤️</p>
-    </div>
+<div class="second" id="page2">
+    <div class="kiss">💋</div>
+    <h1 class="glow">Hehe… I knew it 😏</h1>
+    <h2 class="glow">I love you so much ❤️</h2>
 </div>
+
+<audio id="kissSound">
+  <source src="https://www.soundjay.com/human/kiss-1.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-let noCount = 0;
-
-const excuses = [
-    "Are you serious? 😒",
-    "Really… NO? 😐",
-    "Think one more time 🤨",
+let steps = [
+    "Seriously 😐",
+    "Are you serious?",
+    "Think one more time 🤔",
+    "Think again 😒",
+    "Are you really serious?",
+    "Ab maan bhi jao 😩",
     "Last chance 😤",
-    "Dil se socho 😩",
-    "Itna attitude? 😒",
-    "Matlab pakka NO? 😑",
-    "Achha… phir se soch lo 🙄",
-    "Ab toh YES hi bacha hai 😏",
-    "Escape nahi milega 😈"
+    "One more chance 🥺",
+    "Ab bas ho gaya… YES bol do 😏"
 ];
 
-function noClicked() {
+let i = 0;
+
+function noClick(){
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const msg = document.getElementById("message");
+    const text = document.getElementById("text");
 
-    msg.innerText = excuses[noCount % excuses.length];
+    if(navigator.vibrate){
+        navigator.vibrate(120);
+    }
 
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 120);
+    noBtn.innerText = steps[i];
+    text.innerText = steps[i];
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    let w = yesBtn.offsetWidth;
+    yesBtn.style.width = (w + 30) + "px";
+    yesBtn.style.fontSize = (parseFloat(getComputedStyle(yesBtn).fontSize) + 3) + "px";
 
-    let yesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-    yesBtn.style.fontSize = (yesSize + 4) + "px";
+    if(i === steps.length - 1){
+        noBtn.style.display="none";
+        yesBtn.style.width="90%";
+        yesBtn.style.fontSize="36px";
+    }
 
-    noCount++;
+    i++;
 }
 
-function yesClicked() {
-    document.getElementById("popup").style.display = "flex";
+function yesClick(){
+    document.getElementById("page1").style.display="none";
+    document.getElementById("page2").style.display="flex";
+    document.getElementById("kissSound").play();
+    heartRain();
+}
+
+function heartRain(){
+    setInterval(()=>{
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerText="❤️";
+        h.style.left=Math.random()*100+"vw";
+        h.style.fontSize=(20+Math.random()*20)+"px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),4000);
+    },300);
 }
 </script>
 
