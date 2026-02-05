@@ -2,132 +2,164 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Will You Be My Valentine?</title>
+<title>Valentine Surprise 💖</title>
+
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        font-family: 'Poppins', sans-serif;
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
 
-    .container {
-        text-align: center;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        max-width: 400px;
-    }
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    max-width: 420px;
+}
 
-    h1 {
-        color: #ff4d6d;
-        margin-bottom: 10px;
-    }
+h1 {
+    color: #ff3f6c;
+}
 
-    p {
-        color: #555;
-        min-height: 24px;
-    }
+#message {
+    margin-top: 10px;
+    color: #555;
+    min-height: 24px;
+    font-weight: 500;
+}
 
-    .buttons {
-        margin-top: 30px;
-        position: relative;
-        height: 120px;
-    }
+.buttons {
+    margin-top: 30px;
+    height: 160px;
+    position: relative;
+}
 
-    button {
-        padding: 12px 25px;
-        font-size: 18px;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: absolute;
-    }
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 14px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    transition: all 0.3s ease;
+}
 
-    #yesBtn {
-        background: #ff4d6d;
-        color: white;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+#yesBtn {
+    background: #ff3f6c;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-    #noBtn {
-        background: #ccc;
-        color: #333;
-        left: 50%;
-        top: 60px;
-        transform: translateX(-50%);
-    }
+#noBtn {
+    background: #ddd;
+    color: #333;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* POPUP */
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+    from {transform: scale(0.6);}
+    to {transform: scale(1);}
+}
+
+.kiss {
+    font-size: 70px;
+    animation: kiss 1s infinite alternate;
+}
+
+@keyframes kiss {
+    from {transform: scale(1);}
+    to {transform: scale(1.2);}
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
     <h1>Will you be my Valentine? 💖</h1>
-    <p id="text">Soch lo… dil se ❤️</p>
+    <p id="message">Soch samajh ke jawab dena 😌</p>
 
     <div class="buttons">
         <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
-        <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+        <button id="noBtn" onclick="noClicked()">No 🙃</button>
+    </div>
+</div>
+
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <div class="kiss">💋</div>
+        <h2>Hehe… I knew it 😏</h2>
+        <p>I love you so much ❤️</p>
     </div>
 </div>
 
 <script>
-    let noCount = 0;
-    const messages = [
-        "Are you sure? 🤔",
-        "Ek baar aur soch lo 🥺",
-        "Dil se jawab do 💓",
-        "Itna jaldi No? 😢",
-        "Last chance 😭",
-        "Ab toh Yes hi bacha hai 😏"
-    ];
+let noCount = 0;
 
-    function moveNo() {
-        const noBtn = document.getElementById("noBtn");
-        const yesBtn = document.getElementById("yesBtn");
-        const text = document.getElementById("text");
+const excuses = [
+    "Are you serious? 😒",
+    "Really… NO? 😐",
+    "Think one more time 🤨",
+    "Last chance 😤",
+    "Dil se socho 😩",
+    "Itna attitude? 😒",
+    "Matlab pakka NO? 😑",
+    "Achha… phir se soch lo 🙄",
+    "Ab toh YES hi bacha hai 😏",
+    "Escape nahi milega 😈"
+];
 
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 100);
+function noClicked() {
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const msg = document.getElementById("message");
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
+    msg.innerText = excuses[noCount % excuses.length];
 
-        if (noCount < messages.length) {
-            text.innerText = messages[noCount];
-        }
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 120);
 
-        let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-        yesBtn.style.fontSize = (currentSize + 3) + "px";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
 
-        noCount++;
-    }
+    let yesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+    yesBtn.style.fontSize = (yesSize + 4) + "px";
 
-    function yesClicked() {
-        document.body.innerHTML = `
-            <div style="
-                height:100vh;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                flex-direction:column;
-                background:linear-gradient(135deg,#ff758c,#ff7eb3);
-                color:white;
-                text-align:center;
-                font-family:Poppins,sans-serif;">
-                <h1>Yaaay!!! 😍💖</h1>
-                <h2>You just made me the happiest person 🥰</h2>
-                <p>Happy Valentine’s Day 💘</p>
-            </div>
-        `;
-    }
+    noCount++;
+}
+
+function yesClicked() {
+    document.getElementById("popup").style.display = "flex";
+}
 </script>
 
 </body>
